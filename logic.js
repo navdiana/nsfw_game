@@ -44,7 +44,7 @@ window.onload = function(){
             this.x = random;
             this.y = 10;
 
-            this.radius = 10;
+            this.radius = 15;
             this.width = this.radius;
             this.height = this.radius;
             this.cx = this.x - this.radius/2;
@@ -71,7 +71,7 @@ window.onload = function(){
             this.x = x;
             this.y = MOUSE_Y
 
-            this.radius = 10;
+            this.radius = 25;
             this.width = this.radius;
             this.height = this.radius;
             this.cx = this.x - this.radius/2;
@@ -152,6 +152,8 @@ window.onload = function(){
                     cursor.cy <= goody.cy + goody.height &&
                     cursor.cy + cursor.height >= goody.cy) {
 
+                    this.goodies.splice(i,1);
+                    this.currGoodies--;
                     console.log('hit goody');
                 }
             }
@@ -165,6 +167,8 @@ window.onload = function(){
                     cursor.cy <= trash.cy + trash.height &&
                     cursor.cy + cursor.height >= trash.cy) {
 
+                    this.trashs.splice(i,1);
+                    this.currTrash--;
                     console.log('hit trash');
                 }
             }
@@ -177,7 +181,7 @@ window.onload = function(){
 
     // adding event listeners that get mouse cooridnates
     ctx.canvas.addEventListener('mousemove', function(event){
-        MOUSE_X = event.clientX - ctx.canvas.offsetLeft;
+        MOUSE_X = event.clientX - 350;
         cursor.updatePos();
     });
 
