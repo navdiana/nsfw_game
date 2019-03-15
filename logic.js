@@ -5,40 +5,42 @@ window.onload = function(){
     var ctx = canvas.getContext("2d");
 
     var MOUSE_X = canvas.width  / 2;
-    var MOUSE_Y = canvas.height / 5 * 4;
+    var MOUSE_Y = canvas.height / 5 * 3.7;
 
     class Garbage{
         constructor(){
-            let random = Math.floor((Math.random() * 635) + 5);
+            let random = Math.floor((Math.random() * 635) + 15);
             this.x = random;
             this.y = 10;
-            this.radius = 10;
+            this.radius = 15;
 
             this.width = this.radius;
             this.height = this.radius;
             this.cx = this.x - this.radius/2;
             this.cy = this.y - this.radius/2;
 
+            this.radius = 15;
             this.color = "green";
         }
         draw(ctx){
             ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
+            const image = document.getElementById('nsfw-icon');
+            ctx.drawImage(image, this.x-50, this.y,55,55);
             ctx.closePath();
         }
 
         updatePos(){
-            this.y += 3;
+            this.y += Math.floor((Math.random() * 3) + 1);
             this.cx = this.x - this.radius/2;
             this.cy = this.y - this.radius/2;
         }
+
+
     }
 
     class GoodStuff{
         constructor(){
-            let random = Math.floor((Math.random() * 635) + 5);
+            let random = Math.floor((Math.random() * 635) + 15);
             this.x = random;
             this.y = 10;
 
@@ -50,16 +52,16 @@ window.onload = function(){
 
             this.color = "red";
         }
+
         draw(ctx){
             ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
+            const image = document.getElementById('hi-icon');
+            ctx.drawImage(image, this.x-50, this.y,55,55);
             ctx.closePath();
         }
 
         updatePos(){
-            this.y += 3;
+            this.y += Math.floor((Math.random() * 3) + 1);
             this.cx = this.x - this.radius/2;
             this.cy = this.y - this.radius/2;
         }
@@ -78,11 +80,9 @@ window.onload = function(){
         }
 
         draw(ctx){
-            // draw ball representing the lightsource
+            const image = document.getElementById('tumblr-icon');
+            ctx.drawImage(image, this.x, this.y, 50, 50);
             ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
             ctx.closePath();
         }
 
@@ -193,6 +193,6 @@ window.onload = function(){
         cursor.draw(ctx);
     }
 
-    setInterval(run, 10);
+    setInterval(run, 1);
 
 }
