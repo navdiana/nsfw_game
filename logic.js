@@ -31,13 +31,15 @@ window.onload = function(){
 
         updatePos(){
             this.y += 3;
+            this.cx = this.x - this.radius/2;
+            this.cy = this.y - this.radius/2;
         }
     }
 
     class GoodStuff{
         constructor(){
             let random = Math.floor((Math.random() * 635) + 5);
-            this.x = canvas.width/2;
+            this.x = random;
             this.y = 10;
 
             this.radius = 10;
@@ -58,12 +60,14 @@ window.onload = function(){
 
         updatePos(){
             this.y += 3;
+            this.cx = this.x - this.radius/2;
+            this.cy = this.y - this.radius/2;
         }
     }
     class Cursor{
-        constructor(x, y){
+        constructor(x){
             this.x = x;
-            this.y = y;
+            this.y = MOUSE_Y
 
             this.radius = 10;
             this.width = this.radius;
@@ -85,6 +89,8 @@ window.onload = function(){
         updatePos(){
             this.x = MOUSE_X;
             this.y = MOUSE_Y;
+            this.cx = this.x - this.radius/2;
+            this.cy = this.y - this.radius/2;
         }
     }
 
@@ -92,11 +98,12 @@ window.onload = function(){
         constructor(){
             this.maxGoodies = 6;
             this.maxTrash = 3;
+
             this.currGoodies = 0;
             this.currTrash = 0;
+
             this.goodies = [];
             this.trashs = [];
-            this.debug = 0
         }
         spawnGoodies(){
             if(this.currGoodies<this.maxGoodies){
@@ -121,7 +128,7 @@ window.onload = function(){
 
         update(){
             for(let i = 0; i<this.currTrash;i++){
-                this.trashs[i].updatePos();
+                 this.trashs[i].updatePos();
                 if(this.trashs[i].y > 640){
                     this.trashs.splice(i,1);
                     this.currTrash -= 1;
@@ -139,39 +146,41 @@ window.onload = function(){
         collision(cursor){
             for(let i=0; i<this.currGoodies; i++){
                 let goody = this.goodies[i];
-                if(this.debug < 200){
-                    console.log(this.debug);
-                    console.log(cursor.cx < goody.cx + goody.width);
-                    console.log(cursor.cx + cursor.width > goody.cx);
-                    console.log(cursor.cy < goody.cy + goody.height);
-                    console.log(cursor.cy + cursor.height > goody.cy);
-                    console.log('*****************************************');
-                    this.debug++;
+
+                if (cursor.cx <= goody.cx + goody.width &&
+                    cursor.cx + cursor.width >= goody.cx &&
+                    cursor.cy <= goody.cy + goody.height &&
+                    cursor.cy + cursor.height >= goody.cy) {
+
+                    console.log('hit goody');
                 }
+            }
 
-                if (cursor.cx < goody.cx + goody.width &&
-                    cursor.cx + cursor.width > goody.cx &&
-                    cursor.cy < goody.cy + goody.height &&
-                    cursor.cy + cursor.height > goody.cy) {
 
-                    console.log('hit');
+            for(let i=0; i<this.currTrash; i++){
+                let trash = this.trashs[i];
+
+                if (cursor.cx <= trash.cx + trash.width &&
+                    cursor.cx + cursor.width >= trash.cx &&
+                    cursor.cy <= trash.cy + trash.height &&
+                    cursor.cy + cursor.height >= trash.cy) {
+
+                    console.log('hit trash');
                 }
             }
         }
-
     }
 
-
     // Game objects
-    var cursor = new Cursor(500, canvas.width/2);
+    var cursor = new Cursor(110);
     var gen = new Generator();
-
 
     // adding event listeners that get mouse cooridnates
     ctx.canvas.addEventListener('mousemove', function(event){
         MOUSE_X = event.clientX - ctx.canvas.offsetLeft;
         cursor.updatePos();
     });
+
 
     //runs the node simulation
     function run() {
